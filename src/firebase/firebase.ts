@@ -1,4 +1,7 @@
-export const FIREBASE_CONFIG = {
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
+const FIREBASE_CONFIG = {
      apiKey: "AIzaSyDWaIXUPWY_uGC2JNtQOJ2GF8sNha_HxAw",
      authDomain: "laundry-counter.firebaseapp.com",
      projectId: "laundry-counter",
@@ -6,4 +9,8 @@ export const FIREBASE_CONFIG = {
      messagingSenderId: "654615048526",
      appId: "1:654615048526:web:b86b000a4170cc4fb6ae1f",
      measurementId: "G-J2P2S6SG2H"
- }
+}
+ 
+const app = initializeApp(FIREBASE_CONFIG);
+
+export default getFirestore(app);
