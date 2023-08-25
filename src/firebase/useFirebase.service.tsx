@@ -16,12 +16,12 @@ export const useFirebaseService = () => {
     query(collectionRef);
 
     // RESET DATABASE
-    LAUNDRY_COUNTS_INITIAL.forEach(item => {
-      setDoc(doc(db, Laundry_Counts_STRING, item.name), {
-        name: item.name,
-        number: item.number,
-      });
-    })
+    // LAUNDRY_COUNTS_INITIAL.forEach(item => {
+    //   setDoc(doc(db, Laundry_Counts_STRING, item.name), {
+    //     name: item.name,
+    //     number: item.number,
+    //   });
+    // })
 
     const unsub = onSnapshot(collectionRef, (querySnapshot) => {
       const items: LaundryCounts = [];
