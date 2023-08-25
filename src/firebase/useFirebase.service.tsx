@@ -1,10 +1,10 @@
 
 import { useEffect, useState } from 'react';
-import  { collection, doc, onSnapshot, query, setDoc, updateDoc } from 'firebase/firestore';
+import  { collection, doc, onSnapshot, query, updateDoc } from 'firebase/firestore';
 import { LaundryCounts, LaundryItem } from '../shared/types/laundry-counts.type';
 
 import db from './firebase';
-import { LAUNDRY_COUNTS_INITIAL, Laundry_Counts_STRING } from '../shared/constants';
+import { Laundry_Counts_STRING } from '../shared/constants';
 
 export const useFirebaseService = () => {
   const [laundryCounts, setLaundryCounts] = useState<LaundryCounts>();
