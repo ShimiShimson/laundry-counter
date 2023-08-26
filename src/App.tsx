@@ -1,11 +1,38 @@
+import { useRef } from "react";
+
 import "./App.css";
+
 import { useFirebaseService } from "./firebase/useFirebase.service";
 
 function App() {
-
   const { laundryCounts, handleDecrement, handleIncrement, handleInputChange } =
     useFirebaseService();
   
+  const isPasswordCorrect = useRef<boolean>(false);
+
+
+  const requestPassword = () => {
+    console.log('onFocus triggered')
+    if (!isPasswordCorrect.current) {
+      const password = window.prompt("Wpisz hasło");
+      if (password === "agatka") {
+        isPasswordCorrect.current = true;
+      } else {
+        alert("Niewłaściwe hasło");
+      }
+    }
+
+  }
+
+  const handleClickInput = (name: string, value: string) => {
+    requestPassword();
+    if (isPasswordCorrect.current) {
+      handleInputChange(name, value);
+    } else {
+      alert("Niewłaściwe hasło");
+    }
+  };
+
   return (
     <div className="table-container">
       <table>
@@ -47,7 +74,8 @@ function App() {
               <span>{name}</span>
               <input
                 type="number"
-                onChange={(e) => handleInputChange(name, e.target.value)}
+                onClick={() => requestPassword()}
+                onChange={(e) => handleClickInput(name, e.target.value)}
               />
             </div>
           ))}
