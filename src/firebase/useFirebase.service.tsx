@@ -75,7 +75,7 @@ export const useFirebaseService = () => {
   const handleInputChange = (name: string, value: string) => {
     const record = findRecord(name);
 
-    if (record && /^[0-9]*$/.test(value)) {
+    if (record && /^[0-9-]*$/.test(value)) {
       updateDoc(doc(db, Laundry_Counts_STRING, name), {
         number: parseInt(value),
       });
