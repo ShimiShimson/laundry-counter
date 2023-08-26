@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import {
   collection,
   doc,
@@ -6,12 +7,13 @@ import {
   query,
   updateDoc,
 } from "firebase/firestore";
+import db from "./firebase";
+
 import {
   LaundryCounts,
   LaundryItem,
 } from "../shared/types/laundry-counts.type";
 
-import db from "./firebase";
 import { Laundry_Counts_STRING } from "../shared/constants";
 
 export const useFirebaseService = () => {
