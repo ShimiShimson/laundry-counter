@@ -1,18 +1,24 @@
+import { useEffect, useState } from "react";
+import {
+  collection,
+  doc,
+  onSnapshot,
+  query,
+  updateDoc,
+} from "firebase/firestore";
+import {
+  LaundryCounts,
+  LaundryItem,
+} from "../shared/types/laundry-counts.type";
 
-import { useEffect, useState } from 'react';
-import  { collection, doc, onSnapshot, query, updateDoc } from 'firebase/firestore';
-import { LaundryCounts, LaundryItem } from '../shared/types/laundry-counts.type';
-
-import db from './firebase';
-import { Laundry_Counts_STRING } from '../shared/constants';
+import db from "./firebase";
+import { Laundry_Counts_STRING } from "../shared/constants";
 
 export const useFirebaseService = () => {
   const [laundryCounts, setLaundryCounts] = useState<LaundryCounts>();
   const collectionRef = collection(db, Laundry_Counts_STRING);
 
-    
   useEffect(() => {
-
     query(collectionRef);
 
     // RESET DATABASE
@@ -35,39 +41,51 @@ export const useFirebaseService = () => {
       if (items.length > 0) {
         setLaundryCounts(items);
       }
-
     });
     return () => {
       unsub();
     };
-    
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);  
-  
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const findRecord = (name: string) =>
+    laundryCounts?.find((item) => item.name === name);
+
   const handleIncrement = (name: string) => {
-    const record = laundryCounts?.find(item => item.name === name)
+    const record = findRecord(name);
 
     record &&
       updateDoc(doc(db, Laundry_Counts_STRING, name), {
         number: record.number + 1,
       });
-
-    };
+  };
 
   const handleDecrement = (name: string) => {
-    const record = laundryCounts?.find((item) => item.name === name);
+    const record = findRecord(name);
 
     record &&
       updateDoc(doc(db, Laundry_Counts_STRING, name), {
         number: record.number - 1,
       });
-    };
+  };
 
+  const handleInputChange = (name: string, value: string) => {
+    const record = findRecord(name);
 
-  
+    if (record && /^[0-9]*$/.test(value)) {
+      updateDoc(doc(db, Laundry_Counts_STRING, name), {
+        number: parseInt(value),
+      });
+    } else {
+      alert("Please enter a valid number");
+    }
+  };
+
   return {
     laundryCounts,
     handleIncrement,
-    handleDecrement
+    handleDecrement,
+    handleInputChange,
   };
-}
+};
