@@ -7,12 +7,10 @@ import { useFirebaseService } from "./firebase/useFirebase.service";
 function App() {
   const { laundryCounts, handleDecrement, handleIncrement, handleInputChange } =
     useFirebaseService();
-  
+
   const isPasswordCorrect = useRef<boolean>(false);
 
-
   const requestPassword = () => {
-    console.log('onFocus triggered')
     if (!isPasswordCorrect.current) {
       const password = window.prompt("Wpisz hasło");
       if (password === "agatka") {
@@ -21,16 +19,20 @@ function App() {
         alert("Niewłaściwe hasło");
       }
     }
+  };
 
-  }
+  const handleClickPlus = (name: string) => {
+    requestPassword();
+    isPasswordCorrect.current && handleDecrement(name);
+  };
+  const handleClickMinus = (name: string) => {
+    requestPassword();
+    isPasswordCorrect.current && handleIncrement(name);
+  };
 
   const handleClickInput = (name: string, value: string) => {
     requestPassword();
-    if (isPasswordCorrect.current) {
-      handleInputChange(name, value);
-    } else {
-      alert("Niewłaściwe hasło");
-    }
+    isPasswordCorrect.current && handleInputChange(name, value);
   };
 
   return (
@@ -52,13 +54,13 @@ function App() {
                 <td>
                   <button
                     className="decrement-button"
-                    onClick={() => handleDecrement(name)}
+                    onClick={() => handleClickPlus(name)}
                   >
                     -
                   </button>
                   <button
                     className="increment-button"
-                    onClick={() => handleIncrement(name)}
+                    onClick={() => handleClickMinus(name)}
                   >
                     +
                   </button>
